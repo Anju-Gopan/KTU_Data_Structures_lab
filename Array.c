@@ -9,9 +9,9 @@ void main()
 	while (1)
 	{
 		printf("\n_________Menu__________ \n");
-		printf("Create\t:\t1\nInsert\t:\t2\nDisplay\t:\t3\nDelete\t:\t4\nExit\t:\t5");
+		printf("Create\n:\t1\tInsert\t:\n2\tDisplay\n:\t3\nDelete\n:\t4\tExit\n:\t5");
 		printf("\n______________________\n");
-		printf("\nEnter the Choice 1 to 5:");
+		printf("\nEnter your Choice ->1 to 5:");
 		scanf("%d", &c);
 		if (c == 1)
 		{
@@ -21,9 +21,9 @@ void main()
 		}
 		else if (c == 2)
 		{
-			printf("Enter the Position to be insert:");
+			printf("Enter the Position to which the elements to be insert:");
 			scanf("%d", &p);
-			printf("Enter the Element Need to insert:");
+			printf("Enter the Element Need to inserted:");
 			scanf("%d", &e);
 			Insert(array, p, e, n);
 			n++;
@@ -32,7 +32,7 @@ void main()
 			Display(array, n);
 		else if (c == 4)
 		{
-			printf("Enter the Position to be Delete:");
+			printf("Enter the Position of element to be Deleted:");
 			scanf("%d", &p);
 			Delete(array, p, n);
 			n--;
@@ -40,14 +40,14 @@ void main()
 		else if (c == 5)
 			break;
 		else
-			printf("Invalid choice Tryagain");
+			printf("Invalid choice Try again");
 	}
 }
 void Create(int a[], int n)
 {
 	for (i = 0; i < n; i++)
 	{
-		printf("Enter The Elament %d:", i + 1);
+		printf("Enter The Element %d:", i + 1);
 		scanf("%d", &a[i]);
 	}
 }
