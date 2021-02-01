@@ -1,0 +1,213 @@
+#include<stdio.h>
+#include<malloc.h>
+struct node
+{	
+	int data;
+	struct node *lc,*rc;
+};
+int option;
+struct node *root =NULL, *parent ,*ptr1,*ptr2;
+int flag, l=0,fl=0;
+void insert(struct node *);
+void in(struct node *);
+void post(struct node *);
+void pre(struct node *);
+void search(struct node *,int);
+void deltree(struct node *,int);
+struct node *searchparent(struct node *,int);
+int main()
+{
+	int c;
+	int item;
+	root=(struct node*)malloc(sizeof(struct node));
+	printf("\n Enter the root node data:");
+	scanf("%d",&root->data);
+	root->lc=NULL;
+	root->rc=NULL;
+	printf("Do you want to enter more nodes ? \t Press 1 for yes :");
+	scanf("%d",&option);
+	if(option ==1)
+	{	
+		insert(root);
+	}
+	while(1)
+	{
+		printf("\n 2.\t Inorder-Preorder-Postorder\n 3.search\n4.Delete \n0.Exit\n\n Enter your choice :\t");
+		scanf("%d",&c);
+		if(c==2)
+		{
+			printf("\n Inorder\t:");
+			in(root);
+			printf("\n Preorder\t:");
+			pre(root);
+			printf("\n Postorder\t:");
+			post(root);
+		}
+		else if (c==3)
+		{	
+			printf("\n Enter the data to be searched :");
+			scanf("%d",&item);
+			flag=0;
+			search(root,item);
+			if(flag==1)
+				printf("Search successfull\n");
+			else
+				printf("search unsuccessfull\n");
+		}
+		else if(c==4)
+		{
+			printf("\n Enter the data to be deleted :");
+			scanf("%d",&item);
+			deltree(root,item);
+		}
+		else if(c==0)
+			break;
+		else
+			printf("\n Invalid input");
+	}
+	return 0;
+}
+struct node *searchparent(struct node *ptr,int item)
+{
+	struct node *parent,*ptr1,*ptr2;
+	if(ptr==root)
+	{
+		if(ptr->data==item)
+		{
+			return NULL;
+		}
+	}
+	if(ptr->data !=item)
+	{
+		parent=ptr;
+		ptr1=ptr->lc;
+		ptr2=ptr->rc;
+		if(ptr-> data == item || ptr2->data == item)
+			return ptr;
+		if(ptr1 != NULL)
+			searchparent(ptr1,item);
+		else
+		{
+			if(ptr2 != NULL)
+				ptr2 = searchparent(ptr2,item);
+			else
+				return NULL;
+		}
+	}
+}
+void deltree(struct node *ptr, int item)
+{
+	if(ptr ==root)
+		if((ptr->lc ==NULL) && (ptr->rc ==NULL))
+		{
+			root=(struct node *)malloc(sizeof(struct node));
+		}
+		parent=searchparent(root,item);
+		printf("\n \n");
+		printf("parent=%d",parent->data);
+		if(parent !=NULL)
+		{
+			ptr1=parent->lc;
+			ptr2=parent->rc;
+			if(ptr1->data == item)
+			{
+				if(ptr1->lc == NULL && ptr1->rc == NULL)
+					parent->lc=NULL;
+				else
+					printf("\n Node is not a leaf node so no deletion possible");
+			}
+			else
+			{
+				if(ptr2->lc == NULL && ptr2->rc == NULL)
+					parent->rc=NULL;
+				else
+					printf("\n Node is not a leaf node so no deletion possible");
+			}
+		}
+		else
+			printf("\n Node with data %d does not exist . no deletion",item);
+}
+void insert(struct node *ptr)
+{
+	struct node *lnewn,*rnewn;
+	if(ptr != NULL)
+	{
+		printf("\n Do you want to enter a left child to %d?",ptr->data);
+		printf("\n Enter option=1/0:");
+		scanf("%d",&option);
+		if(option==1)
+		{
+			lnewn=(struct node *)malloc(sizeof(struct node));
+			printf("\n Enter the data of left child:");
+			scanf("%d",&lnewn->data);
+			ptr->lc=lnewn;
+			ptr->rc=NULL;
+			lnewn->lc=NULL;
+			lnewn->rc=NULL;
+			insert(lnewn);
+		}
+		else
+		{
+			lnewn=NULL;
+			insert(lnewn);
+		}
+		printf("Do you want to enter a right child to %d?",ptr->data);
+		printf("\n Enter option=1/0:");
+		scanf("%d",&option);
+		if(option==1)
+		{
+			rnewn=(struct node *)malloc(sizeof(struct node));
+			printf("\n Enter the data of right child:");
+			scanf("%d",&rnewn->data);
+			ptr->rc=rnewn;
+			ptr->lc=NULL;
+			rnewn->lc=NULL;
+			rnewn->rc=NULL;
+			insert(rnewn);
+		}
+		else
+		{
+			rnewn=NULL;
+			insert(rnewn);
+		}
+	}
+}
+void in(struct node *w)
+{
+	if(w!= NULL)
+	{
+		in(w->lc);
+		printf("%d \t",w->data);
+		in(w->rc);
+	}
+}
+void post(struct node *w)
+{
+	if(w!= NULL)
+	{
+		post(w->lc);
+		post(w->rc);
+		printf("%d \t",w->data);
+	}
+}
+void pre(struct node *w)
+{
+	if(w!=NULL)
+	{
+		printf("%d \t",w->data);
+		pre(w->lc);
+		pre(w->lc);
+	}
+}
+void search(struct node *tmp, int item)
+{
+	if(tmp != NULL)
+	{
+		search(tmp->lc,item);
+		if(tmp->data == item)
+		{
+			flag=1;
+		}
+		search(tmp->rc,item);
+	}
+}
